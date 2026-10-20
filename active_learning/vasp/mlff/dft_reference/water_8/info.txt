@@ -1,0 +1,8 @@
+
+
+POSCAR_best_0  =   -.6453E+03 matthias
+POSCAR_best_i  = best of my runs
+
+i=1 = log_lammps_out_32 -.6462E+03 (deltaE =  -0.9 eV best mine in the  paper)
+i=2 = log_lammps_out_28 -.6460E+03 (same as 32 but reverted dissociated, not in paper)
+i=3 = log_lammps_out_26 -.6455E+03 (deltaE= -0.2 eV second best in paper  ) 

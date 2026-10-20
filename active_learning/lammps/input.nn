@@ -1,0 +1,285 @@
+###############################################################################
+# GENERAL NNP SETTINGS
+###############################################################################
+number_of_elements                   3          # Number of elements.
+elements                             Fe O  H       # Specification of elements.
+global_hidden_layers_short           2          # Number of hidden layers.
+global_nodes_short                   30 30         # Number of nodes in each hidden layer.     
+global_activation_short              t t l          # Activation function for each hidden layer and output layer.
+epochs				     70          # Number of training epochs.
+random_seed			     24412          # Random number generator seed.
+  
+
+
+##### Committee ######
+committee_mode                  prediction     # Enables Committee-HDNNP, possible modes = prediction, validation.
+committee_data                  nnp-data 5    # Committee data directory prefix and committee size.
+committee_cutoff                0.0         
+
+##### Training #####
+normalize_data_set               force         # Dataset normalization
+use_short_forces                               # Train forces. 
+jacobian_mode			 1             # Jacobian computation mode (0 = Summation to single gradient, 1 = Per-task summed gradient, 2 = Full Jacobian).
+selection_mode			 2             # Update candidate selection mode (0 = Random, 1 = Sort, 2 = Threshold).
+parallel_mode			 0             # Training parallelization used (0 = Parallel (rank 0 update), 1 = Parallel (all update)).
+update_strategy			 0             # Update strategy (0 = Combined, 1 = Per-element).
+task_batch_size_energy		 1             # Number of energy update candidates prepared per task for each update (0 = Entire training set).
+task_batch_size_force		 1             # Number of force update candidates prepared per task for each update (0 = Entire training set).
+test_fraction			 0             # Fraction of structures kept for testing==== VALIDATION.DATA.
+force_weight			 10            # Weight of force updates relative to energy updates.
+short_energy_fraction		 1.000000      # Fraction of energy updates per epoch.
+short_force_fraction		 0.010000      # Fraction of force updates per epoch.
+short_energy_error_threshold	 0.000000      # RMSE threshold for energy update candidates.
+short_force_error_threshold	 1.000000      # RMSE threshold for force update candidates.
+rmse_threshold_trials		 6             # Maximum number of RMSE threshold trials.
+weights_min                     -1.000000      # Minimum value for initial random weights.
+weights_max			 1.000000      # Maximum value for initial random weights.
+main_error_metric		 RMSEpa        # Main error metric for screen output (RMSEpa/RMSE/MAEpa/MAE).
+updater_type			 1             # Weight update method (0 = Gradient Descent, 1 = Kalman filter).
+
+##### Kalman Filter #####
+kalman_type			 0             # Kalman filter type (0 = Standard, 1 = Fading memory).          
+kalman_epsilon			 1.00e-02      # General Kalman filter parameter epsilon (sigmoidal: 0.01, linear: 0.001).
+kalman_q0			 0.010000      # General Kalman filter parameter q0 ("large").
+kalman_qtau			 2.302000      # General Kalman filter parameter qtau (2.302 => 1 order of magnitude per epoch).
+kalman_qmin			 1.00e-06      # General Kalman filter parameter qmin (typ. 1.0E-6).
+kalman_eta			 0.010000      # Standard Kalman filter parameter eta (0.001-1.0).
+kalman_etatau			 2.302000      # Standard Kalman filter parameter etatau (2.302 => 1 order of magnitude per epoch).
+kalman_etamax			 1.000000      # Standard Kalman filter parameter etamax (1.0+).
+
+##### Verbosity #####
+write_weights_epoch		 1             # Write weights every this many epochs.
+write_trainpoints		 0             # Write energy comparison every this many epochs.
+write_trainforces		 0             # Write force comparison every this many epochs.
+write_neuronstats		 0             # Write neuron statistics every this many epochs.
+write_trainlog			 0             # Write training log file.
+
+##### Symmetry Function #####
+memorize_symfunc_results                       # Keep symmetry function results in memory.
+scale_symmetry_functions                       # Scale all symmetry functions with min/max values.
+center_symmetry_functions                      # Center all symmetry functions, i.e. subtract mean value.
+scale_min_short                  0.0           # Minimum value for scaling.
+scale_max_short			 1.000000      # Maximum value for scaling.
+cutoff_type                      3             # Cutoff type.
+
+# Radial symmetry functions for element H
+#			 Element G_i	 Neigh.	 rlow	 rcutoff subtype	
+# symfunction_short	 H	 20	 H	 -1.00	  1.00	 p2	
+symfunction_short	 H	 20	 H	 -2.00	  2.00	 p2	
+symfunction_short	 H	 20	 H	 -3.00	  3.00	 p2	
+symfunction_short	 H	 20	 H	 -4.00	  4.00	 p2	
+symfunction_short	 H	 20	 H	 -5.00	  5.00	 p2	
+symfunction_short	 H	 20	 H	 -6.00	  6.00	 p2	
+
+symfunction_short	 H	 20	 O	 -1.00	  1.00	 p2	
+symfunction_short	 H	 20	 O	 -2.00	  2.00	 p2	
+symfunction_short	 H	 20	 O	 -3.00	  3.00	 p2	
+symfunction_short	 H	 20	 O	 -4.00	  4.00	 p2	
+symfunction_short	 H	 20	 O	 -5.00	  5.00	 p2	
+symfunction_short	 H	 20	 O	 -6.00	  6.00	 p2	
+
+# symfunction_short	 H	 20	 Fe	 -1.00	  1.00	 p2	
+# symfunction_short	 H	 20	 Fe	 -2.00	  2.00	 p2	
+symfunction_short	 H	 20	 Fe	 -3.00	  3.00	 p2	
+symfunction_short	 H	 20	 Fe	 -4.00	  4.00	 p2	
+symfunction_short	 H	 20	 Fe	 -5.00	  5.00	 p2	
+symfunction_short	 H	 20	 Fe	 -6.00	  6.00	 p2	
+
+
+# Radial symmetry functions for element O
+#			 Element G_i	 Neigh.	 rlow	 rcutoff subtype	
+symfunction_short	 O	 20	 H	 -1.00	  1.00	 p2	
+symfunction_short	 O	 20	 H	 -2.00	  2.00	 p2	
+symfunction_short	 O	 20	 H	 -3.00	  3.00	 p2	
+symfunction_short	 O	 20	 H	 -4.00	  4.00	 p2	
+symfunction_short	 O	 20	 H	 -5.00	  5.00	 p2	
+symfunction_short	 O	 20	 H	 -6.00	  6.00	 p2	
+
+# symfunction_short	 O	 20	 O	 -1.00	  1.00	 p2	
+# symfunction_short	 O	 20	 O	 -2.00	  2.00	 p2	
+symfunction_short	 O	 20	 O	 -3.00	  3.00	 p2	
+symfunction_short	 O	 20	 O	 -4.00	  4.00	 p2	
+symfunction_short	 O	 20	 O	 -5.00	  5.00	 p2	
+symfunction_short	 O	 20	 O	 -6.00	  6.00	 p2	
+
+# symfunction_short	 O	 20	 Fe	 -1.00	  1.00	 p2	
+symfunction_short	 O	 20	 Fe	 -2.00	  2.00	 p2	
+symfunction_short	 O	 20	 Fe	 -3.00	  3.00	 p2	
+symfunction_short	 O	 20	 Fe	 -4.00	  4.00	 p2	
+symfunction_short	 O	 20	 Fe	 -5.00	  5.00	 p2	
+symfunction_short	 O	 20	 Fe	 -6.00	  6.00	 p2	
+
+
+# Radial symmetry functions for element Fe
+#			 Element G_i	 Neigh.	 rlow	 rcutoff subtype	
+# symfunction_short	 Fe	 20	 H	 -1.00	  1.00	 p2	
+# symfunction_short	 Fe	 20	 H	 -2.00	  2.00	 p2	
+symfunction_short	 Fe	 20	 H	 -3.00	  3.00	 p2	
+symfunction_short	 Fe	 20	 H	 -4.00	  4.00	 p2	
+symfunction_short	 Fe	 20	 H	 -5.00	  5.00	 p2	
+symfunction_short	 Fe	 20	 H	 -6.00	  6.00	 p2	
+
+# symfunction_short	 Fe	 20	 O	 -1.00	  1.00	 p2	
+symfunction_short	 Fe	 20	 O	 -2.00	  2.00	 p2	
+symfunction_short	 Fe	 20	 O	 -3.00	  3.00	 p2	
+symfunction_short	 Fe	 20	 O	 -4.00	  4.00	 p2	
+symfunction_short	 Fe	 20	 O	 -5.00	  5.00	 p2	
+symfunction_short	 Fe	 20	 O	 -6.00	  6.00	 p2	
+
+# symfunction_short	 Fe	 20	 Fe	 -1.00	  1.00	 p2	
+# symfunction_short	 Fe	 20	 Fe	 -2.00	  2.00	 p2	
+symfunction_short	 Fe	 20	 Fe	 -3.00	  3.00	 p2	
+symfunction_short	 Fe	 20	 Fe	 -4.00	  4.00	 p2	
+symfunction_short	 Fe	 20	 Fe	 -5.00	  5.00	 p2	
+symfunction_short	 Fe	 20	 Fe	 -6.00	  6.00	 p2	
+
+# Angular symmetry functions for element H
+#			 Element G_i	 Neigh1 Neigh2	 rlow	 rcutoff   left	 right	 subtype	
+# symfunction_short	 H	 22	 H	 H	 -1.00	  1.00	 -180.0	  180.0	 p2	
+# symfunction_short	 H	 22	 H	 H	 -1.00	  1.00	    0.0	  180.0	 p2	
+# symfunction_short	 H	 22	 H	 H	 -1.00	  1.00	    0.0	   90.0	 p2	
+# symfunction_short	 H	 22	 H	 H	 -1.00	  1.00	   90.0	  180.0	 p2	
+symfunction_short	 H	 22	 H	 H	 -6.00	  6.00	 -180.0	  180.0	 p2	
+symfunction_short	 H	 22	 H	 H	 -6.00	  6.00	    0.0	  180.0	 p2	
+symfunction_short	 H	 22	 H	 H	 -6.00	  6.00	    0.0	   90.0	 p2	
+symfunction_short	 H	 22	 H	 H	 -6.00	  6.00	   90.0	  180.0	 p2	
+# symfunction_short	 H	 22	 H	 O	 -1.00	  1.00	 -180.0	  180.0	 p2	
+# symfunction_short	 H	 22	 H	 O	 -1.00	  1.00	    0.0	  180.0	 p2	
+# symfunction_short	 H	 22	 H	 O	 -1.00	  1.00	    0.0	   90.0	 p2	
+# symfunction_short	 H	 22	 H	 O	 -1.00	  1.00	   90.0	  180.0	 p2	
+symfunction_short	 H	 22	 H	 O	 -6.00	  6.00	 -180.0	  180.0	 p2	
+symfunction_short	 H	 22	 H	 O	 -6.00	  6.00	    0.0	  180.0	 p2	
+symfunction_short	 H	 22	 H	 O	 -6.00	  6.00	    0.0	   90.0	 p2	
+symfunction_short	 H	 22	 H	 O	 -6.00	  6.00	   90.0	  180.0	 p2	
+# symfunction_short	 H	 22	 H	 Fe	 -1.00	  1.00	 -180.0	  180.0	 p2	
+# symfunction_short	 H	 22	 H	 Fe	 -1.00	  1.00	    0.0	  180.0	 p2	
+# symfunction_short	 H	 22	 H	 Fe	 -1.00	  1.00	    0.0	   90.0	 p2	
+# symfunction_short	 H	 22	 H	 Fe	 -1.00	  1.00	   90.0	  180.0	 p2	
+symfunction_short	 H	 22	 H	 Fe	 -6.00	  6.00	 -180.0	  180.0	 p2	
+symfunction_short	 H	 22	 H	 Fe	 -6.00	  6.00	    0.0	  180.0	 p2	
+symfunction_short	 H	 22	 H	 Fe	 -6.00	  6.00	    0.0	   90.0	 p2	
+symfunction_short	 H	 22	 H	 Fe	 -6.00	  6.00	   90.0	  180.0	 p2	
+# symfunction_short	 H	 22	 O	 O	 -1.00	  1.00	 -180.0	  180.0	 p2	
+# symfunction_short	 H	 22	 O	 O	 -1.00	  1.00	    0.0	  180.0	 p2	
+# symfunction_short	 H	 22	 O	 O	 -1.00	  1.00	    0.0	   90.0	 p2	
+# symfunction_short	 H	 22	 O	 O	 -1.00	  1.00	   90.0	  180.0	 p2	
+symfunction_short	 H	 22	 O	 O	 -6.00	  6.00	 -180.0	  180.0	 p2	
+symfunction_short	 H	 22	 O	 O	 -6.00	  6.00	    0.0	  180.0	 p2	
+symfunction_short	 H	 22	 O	 O	 -6.00	  6.00	    0.0	   90.0	 p2	
+symfunction_short	 H	 22	 O	 O	 -6.00	  6.00	   90.0	  180.0	 p2	
+# symfunction_short	 H	 22	 O	 Fe	 -1.00	  1.00	 -180.0	  180.0	 p2	
+# symfunction_short	 H	 22	 O	 Fe	 -1.00	  1.00	    0.0	  180.0	 p2	
+# symfunction_short	 H	 22	 O	 Fe	 -1.00	  1.00	    0.0	   90.0	 p2	
+# symfunction_short	 H	 22	 O	 Fe	 -1.00	  1.00	   90.0	  180.0	 p2	
+symfunction_short	 H	 22	 O	 Fe	 -6.00	  6.00	 -180.0	  180.0	 p2	
+symfunction_short	 H	 22	 O	 Fe	 -6.00	  6.00	    0.0	  180.0	 p2	
+symfunction_short	 H	 22	 O	 Fe	 -6.00	  6.00	    0.0	   90.0	 p2	
+symfunction_short	 H	 22	 O	 Fe	 -6.00	  6.00	   90.0	  180.0	 p2	
+# symfunction_short	 H	 22	 Fe	 Fe	 -1.00	  1.00	 -180.0	  180.0	 p2	
+# symfunction_short	 H	 22	 Fe	 Fe	 -1.00	  1.00	    0.0	  180.0	 p2	
+# symfunction_short	 H	 22	 Fe	 Fe	 -1.00	  1.00	    0.0	   90.0	 p2	
+# symfunction_short	 H	 22	 Fe	 Fe	 -1.00	  1.00	   90.0	  180.0	 p2	
+symfunction_short	 H	 22	 Fe	 Fe	 -6.00	  6.00	 -180.0	  180.0	 p2	
+symfunction_short	 H	 22	 Fe	 Fe	 -6.00	  6.00	    0.0	  180.0	 p2	
+symfunction_short	 H	 22	 Fe	 Fe	 -6.00	  6.00	    0.0	   90.0	 p2	
+symfunction_short	 H	 22	 Fe	 Fe	 -6.00	  6.00	   90.0	  180.0	 p2	
+# Angular symmetry functions for element O
+#			 Element G_i	 Neigh1 Neigh2	 rlow	 rcutoff   left	 right	 subtype	
+# symfunction_short	 O	 22	 H	 H	 -1.00	  1.00	 -180.0	  180.0	 p2	
+# symfunction_short	 O	 22	 H	 H	 -1.00	  1.00	    0.0	  180.0	 p2	
+# symfunction_short	 O	 22	 H	 H	 -1.00	  1.00	    0.0	   90.0	 p2	
+# symfunction_short	 O	 22	 H	 H	 -1.00	  1.00	   90.0	  180.0	 p2	
+symfunction_short	 O	 22	 H	 H	 -6.00	  6.00	 -180.0	  180.0	 p2	
+symfunction_short	 O	 22	 H	 H	 -6.00	  6.00	    0.0	  180.0	 p2	
+symfunction_short	 O	 22	 H	 H	 -6.00	  6.00	    0.0	   90.0	 p2	
+symfunction_short	 O	 22	 H	 H	 -6.00	  6.00	   90.0	  180.0	 p2	
+# symfunction_short	 O	 22	 H	 O	 -1.00	  1.00	 -180.0	  180.0	 p2	
+# symfunction_short	 O	 22	 H	 O	 -1.00	  1.00	    0.0	  180.0	 p2	
+# symfunction_short	 O	 22	 H	 O	 -1.00	  1.00	    0.0	   90.0	 p2	
+# symfunction_short	 O	 22	 H	 O	 -1.00	  1.00	   90.0	  180.0	 p2	
+symfunction_short	 O	 22	 H	 O	 -6.00	  6.00	 -180.0	  180.0	 p2	
+symfunction_short	 O	 22	 H	 O	 -6.00	  6.00	    0.0	  180.0	 p2	
+symfunction_short	 O	 22	 H	 O	 -6.00	  6.00	    0.0	   90.0	 p2	
+symfunction_short	 O	 22	 H	 O	 -6.00	  6.00	   90.0	  180.0	 p2	
+# symfunction_short	 O	 22	 H	 Fe	 -1.00	  1.00	 -180.0	  180.0	 p2	
+# symfunction_short	 O	 22	 H	 Fe	 -1.00	  1.00	    0.0	  180.0	 p2	
+# symfunction_short	 O	 22	 H	 Fe	 -1.00	  1.00	    0.0	   90.0	 p2	
+# symfunction_short	 O	 22	 H	 Fe	 -1.00	  1.00	   90.0	  180.0	 p2	
+symfunction_short	 O	 22	 H	 Fe	 -6.00	  6.00	 -180.0	  180.0	 p2	
+symfunction_short	 O	 22	 H	 Fe	 -6.00	  6.00	    0.0	  180.0	 p2	
+symfunction_short	 O	 22	 H	 Fe	 -6.00	  6.00	    0.0	   90.0	 p2	
+symfunction_short	 O	 22	 H	 Fe	 -6.00	  6.00	   90.0	  180.0	 p2	
+# symfunction_short	 O	 22	 O	 O	 -1.00	  1.00	 -180.0	  180.0	 p2	
+# symfunction_short	 O	 22	 O	 O	 -1.00	  1.00	    0.0	  180.0	 p2	
+# symfunction_short	 O	 22	 O	 O	 -1.00	  1.00	    0.0	   90.0	 p2	
+# symfunction_short	 O	 22	 O	 O	 -1.00	  1.00	   90.0	  180.0	 p2	
+symfunction_short	 O	 22	 O	 O	 -6.00	  6.00	 -180.0	  180.0	 p2	
+symfunction_short	 O	 22	 O	 O	 -6.00	  6.00	    0.0	  180.0	 p2	
+symfunction_short	 O	 22	 O	 O	 -6.00	  6.00	    0.0	   90.0	 p2	
+symfunction_short	 O	 22	 O	 O	 -6.00	  6.00	   90.0	  180.0	 p2	
+# symfunction_short	 O	 22	 O	 Fe	 -1.00	  1.00	 -180.0	  180.0	 p2	
+# symfunction_short	 O	 22	 O	 Fe	 -1.00	  1.00	    0.0	  180.0	 p2	
+# symfunction_short	 O	 22	 O	 Fe	 -1.00	  1.00	    0.0	   90.0	 p2	
+# symfunction_short	 O	 22	 O	 Fe	 -1.00	  1.00	   90.0	  180.0	 p2	
+symfunction_short	 O	 22	 O	 Fe	 -6.00	  6.00	 -180.0	  180.0	 p2	
+symfunction_short	 O	 22	 O	 Fe	 -6.00	  6.00	    0.0	  180.0	 p2	
+symfunction_short	 O	 22	 O	 Fe	 -6.00	  6.00	    0.0	   90.0	 p2	
+symfunction_short	 O	 22	 O	 Fe	 -6.00	  6.00	   90.0	  180.0	 p2	
+# symfunction_short	 O	 22	 Fe	 Fe	 -1.00	  1.00	 -180.0	  180.0	 p2	
+# symfunction_short	 O	 22	 Fe	 Fe	 -1.00	  1.00	    0.0	  180.0	 p2	
+# symfunction_short	 O	 22	 Fe	 Fe	 -1.00	  1.00	    0.0	   90.0	 p2	
+# symfunction_short	 O	 22	 Fe	 Fe	 -1.00	  1.00	   90.0	  180.0	 p2	
+symfunction_short	 O	 22	 Fe	 Fe	 -6.00	  6.00	 -180.0	  180.0	 p2	
+symfunction_short	 O	 22	 Fe	 Fe	 -6.00	  6.00	    0.0	  180.0	 p2	
+symfunction_short	 O	 22	 Fe	 Fe	 -6.00	  6.00	    0.0	   90.0	 p2	
+symfunction_short	 O	 22	 Fe	 Fe	 -6.00	  6.00	   90.0	  180.0	 p2	
+# Angular symmetry functions for element Fe
+#			 Element G_i	 Neigh1 Neigh2	 rlow	 rcutoff   left	 right	 subtype	
+# symfunction_short	 Fe	 22	 H	 H	 -1.00	  1.00	 -180.0	  180.0	 p2	
+# symfunction_short	 Fe	 22	 H	 H	 -1.00	  1.00	    0.0	  180.0	 p2	
+# symfunction_short	 Fe	 22	 H	 H	 -1.00	  1.00	    0.0	   90.0	 p2	
+# symfunction_short	 Fe	 22	 H	 H	 -1.00	  1.00	   90.0	  180.0	 p2	
+symfunction_short	 Fe	 22	 H	 H	 -6.00	  6.00	 -180.0	  180.0	 p2	
+symfunction_short	 Fe	 22	 H	 H	 -6.00	  6.00	    0.0	  180.0	 p2	
+symfunction_short	 Fe	 22	 H	 H	 -6.00	  6.00	    0.0	   90.0	 p2	
+symfunction_short	 Fe	 22	 H	 H	 -6.00	  6.00	   90.0	  180.0	 p2	
+# symfunction_short	 Fe	 22	 H	 O	 -1.00	  1.00	 -180.0	  180.0	 p2	
+# symfunction_short	 Fe	 22	 H	 O	 -1.00	  1.00	    0.0	  180.0	 p2	
+# symfunction_short	 Fe	 22	 H	 O	 -1.00	  1.00	    0.0	   90.0	 p2	
+# symfunction_short	 Fe	 22	 H	 O	 -1.00	  1.00	   90.0	  180.0	 p2	
+symfunction_short	 Fe	 22	 H	 O	 -6.00	  6.00	 -180.0	  180.0	 p2	
+symfunction_short	 Fe	 22	 H	 O	 -6.00	  6.00	    0.0	  180.0	 p2	
+symfunction_short	 Fe	 22	 H	 O	 -6.00	  6.00	    0.0	   90.0	 p2	
+symfunction_short	 Fe	 22	 H	 O	 -6.00	  6.00	   90.0	  180.0	 p2	
+# symfunction_short	 Fe	 22	 H	 Fe	 -1.00	  1.00	 -180.0	  180.0	 p2	
+# symfunction_short	 Fe	 22	 H	 Fe	 -1.00	  1.00	    0.0	  180.0	 p2	
+# symfunction_short	 Fe	 22	 H	 Fe	 -1.00	  1.00	    0.0	   90.0	 p2	
+# symfunction_short	 Fe	 22	 H	 Fe	 -1.00	  1.00	   90.0	  180.0	 p2	
+symfunction_short	 Fe	 22	 H	 Fe	 -6.00	  6.00	 -180.0	  180.0	 p2	
+symfunction_short	 Fe	 22	 H	 Fe	 -6.00	  6.00	    0.0	  180.0	 p2	
+symfunction_short	 Fe	 22	 H	 Fe	 -6.00	  6.00	    0.0	   90.0	 p2	
+symfunction_short	 Fe	 22	 H	 Fe	 -6.00	  6.00	   90.0	  180.0	 p2	
+# symfunction_short	 Fe	 22	 O	 O	 -1.00	  1.00	 -180.0	  180.0	 p2	
+# symfunction_short	 Fe	 22	 O	 O	 -1.00	  1.00	    0.0	  180.0	 p2	
+# symfunction_short	 Fe	 22	 O	 O	 -1.00	  1.00	    0.0	   90.0	 p2	
+# symfunction_short	 Fe	 22	 O	 O	 -1.00	  1.00	   90.0	  180.0	 p2	
+symfunction_short	 Fe	 22	 O	 O	 -6.00	  6.00	 -180.0	  180.0	 p2	
+symfunction_short	 Fe	 22	 O	 O	 -6.00	  6.00	    0.0	  180.0	 p2	
+symfunction_short	 Fe	 22	 O	 O	 -6.00	  6.00	    0.0	   90.0	 p2	
+symfunction_short	 Fe	 22	 O	 O	 -6.00	  6.00	   90.0	  180.0	 p2	
+# symfunction_short	 Fe	 22	 O	 Fe	 -1.00	  1.00	 -180.0	  180.0	 p2	
+# symfunction_short	 Fe	 22	 O	 Fe	 -1.00	  1.00	    0.0	  180.0	 p2	
+# symfunction_short	 Fe	 22	 O	 Fe	 -1.00	  1.00	    0.0	   90.0	 p2	
+# symfunction_short	 Fe	 22	 O	 Fe	 -1.00	  1.00	   90.0	  180.0	 p2	
+symfunction_short	 Fe	 22	 O	 Fe	 -6.00	  6.00	 -180.0	  180.0	 p2	
+symfunction_short	 Fe	 22	 O	 Fe	 -6.00	  6.00	    0.0	  180.0	 p2	
+symfunction_short	 Fe	 22	 O	 Fe	 -6.00	  6.00	    0.0	   90.0	 p2	
+symfunction_short	 Fe	 22	 O	 Fe	 -6.00	  6.00	   90.0	  180.0	 p2	
+# symfunction_short	 Fe	 22	 Fe	 Fe	 -1.00	  1.00	 -180.0	  180.0	 p2	
+# symfunction_short	 Fe	 22	 Fe	 Fe	 -1.00	  1.00	    0.0	  180.0	 p2	
+# symfunction_short	 Fe	 22	 Fe	 Fe	 -1.00	  1.00	    0.0	   90.0	 p2	
+# symfunction_short	 Fe	 22	 Fe	 Fe	 -1.00	  1.00	   90.0	  180.0	 p2	
+symfunction_short	 Fe	 22	 Fe	 Fe	 -6.00	  6.00	 -180.0	  180.0	 p2	
+symfunction_short	 Fe	 22	 Fe	 Fe	 -6.00	  6.00	    0.0	  180.0	 p2	
+symfunction_short	 Fe	 22	 Fe	 Fe	 -6.00	  6.00	    0.0	   90.0	 p2	
+symfunction_short	 Fe	 22	 Fe	 Fe	 -6.00	  6.00	   90.0	  180.0	 p2	

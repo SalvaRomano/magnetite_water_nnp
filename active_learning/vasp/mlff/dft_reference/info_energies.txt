@@ -1,0 +1,28 @@
+
+
+SALVATORE is the final fodler
+water_6_uc
+f_POSCAR_0 -620.57786
+f_POSCAR_7 -620.56789   (Matthias)
+f_POSCAR_8 -620.56641
+
+
+water_8
+matthias = -.6453E+03 
+lammps_32= -.6462E+03
+lammps_28= -.6460E+03 (same as 32)
+lammps_26= -.6455E+03
+
+
+slab= -.54043477E+03
+water=-.12322415E+02
+
+
+Adsorption energy  E_ads=E_tot-E_slab-n*E_water
+water_6
+matthias=   -6.20
+best    =   -6.21
+water_8
+matthias=   -6.29   
+best =      -7.19
+

@@ -1,0 +1,19 @@
+# heavy MD / DFT outputs (only the small snapshots are tracked)
+*.dump
+!**/snapshots/*.dump
+*.trj
+*.h5py
+*.npz
+trjmagnetite*
+restart_*
+WAVECAR
+CHG
+CHGCAR
+POTCAR
+vasprun.xml
+*.bindat
+# python / jupyter
+__pycache__/
+.ipynb_checkpoints/
+*.mp4
+*.gif

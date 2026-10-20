@@ -1,0 +1,15 @@
+
+step for concatanating the trj of varous run so that they are continous
+
+#understand which folder are restarted from INITIAL TIME
+ 1089  for i in run_*; do cd $i; echo $i; head trjmagnetite.dump  | grep TIMES -A1 | tail -n 1;    cd ../; done
+
+#FINAL TIME  (NOT STRICLY NEEDED)
+ 1088  for i in run_*; do cd $i; echo $i; tail -n 10000 trjmagnetite.dump  | grep TIMES -A1 | tail -n 1;    cd ../; done
+
+#REMOVING THE LAST PART OF THE PREVIOUS TRJ  (remove from  run_i+1/initial_time to the end of run_i/trj.magnetite    )
+ 1100  sed '/10195000/,$d' run_2/trjmagnetite.dump | head -n -1 > run_2/trj.concat
+ 1101  sed '/49800000/,$d' run_3/trjmagnetite.dump | head -n -1 > run_3/trj.concat
+#CAT ALL
+1105  cat run_2/trj.concat run_3/trj.concat run_4/trjmagnetite.dump > trj.all
+

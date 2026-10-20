@@ -1,0 +1,3 @@
+full_coverage 	   up to run_5 29.158 ns
+full_coverage_big  up to run_5 29.339 ns
+full_coverage_huge up to run_4 13.994 ns

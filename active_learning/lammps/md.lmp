@@ -1,0 +1,58 @@
+###############################################################################
+# VARIABLES
+###############################################################################
+clear
+# Configuration files
+variable cfgFile         string "data.equi"
+# Timesteps
+variable numStepsPro     equal  0
+variable numStepsEqu     equal  1000000
+variable dt              equal  0.0001
+# NN
+variable nnpCutoff       equal  6.35013
+variable nnpDir          string "/data/home/salvatorer26/projects/ferrite_oxide/post_toronto/LAMMPS/test_mega_committee_3/input_a/"
+# Masses
+variable mass_H          equal  1.00784                                               # mass for
+variable mass_O          equal  15.9990                                               # mass for
+variable mass_Fe         equal  55.845                                             # mass for
+ 
+# For Equilibration
+variable temperature_i      equal  200
+variable temperature_f      equal  300
+variable pressure         equal  1.01325
+###############################################################################
+# GENERAL SETUP
+###############################################################################
+units metal
+boundary p p p
+atom_style atomic
+read_data ${cfgFile}
+mass 1 ${mass_H}
+mass 2 ${mass_O}
+mass 3 ${mass_Fe}
+timestep ${dt}
+
+###############################################################################
+# NN               ew=extrapolation warnings   cd=commitee disagrmeement  de= disag. energy df= disag forces         
+###############################################################################
+pair_style nnp dir ${nnpDir} showew no showewsum 100 resetew yes maxew 1000000 calcd 20 wricde 10000000 maxcde 1000 wricdf 1 maxcdf 100 cflength 1.0 cfenergy 1.0 emap "1:H, 2:O, 3:Fe"
+#pair_style nnp dir ${nnpDir} showew no showewsum 100 resetew yes maxew 4000 calcd 5 maxcd 100.0 wricd 250 cflength 1.0 cfenergy 1.0 emap "1:Al, 2:Si, 3:Na, 4:O"
+pair_coeff * * ${nnpCutoff}
+
+###############################################################################
+# Equilibration
+###############################################################################
+# Integrator
+thermo 20
+thermo_style custom step temp pe enthalpy atoms press pzz
+
+fix lange all langevin ${temperature_i} ${temperature_f} 0.05 12282 tally yes
+fix 2 all nph z ${pressure} ${pressure} 1  nreset 100
+fix 1 all nve
+
+
+dump equi all custom 20 equi.dump id type x y z ix iy iz
+dump_modify equi sort id
+run ${numStepsEqu}
+write_data data.equi
+

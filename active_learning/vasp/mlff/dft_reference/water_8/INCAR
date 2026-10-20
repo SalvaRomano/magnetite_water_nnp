@@ -1,0 +1,77 @@
+ISTART = 0     !new job
+#IBRION = 2  #Relaxation
+IBRION = 2    ; ISYM = 0  ; NSW = 100 # MD
+POTIM = 0.1
+#TEBEG = 180 ; TEEND = 250 
+#MDALGO=3                # use Langevin thermostat
+#LANGEVIN_GAMMA = 3*10.0 # friction coef. for atomic DoFs for each species
+
+ISIF = 2         !I use the exp lattice and keep that fixed
+
+ENCUT = 500   ! should be converged ATTENTION WAS 600
+ISPIN = 2     ! spin is important as you have here magnetism involved
+ALGO = All    !  algo 38 All and fast are typically a good choice
+TIME = 0.01    ! set step width for trial step in CG algorithm for electronic orbitals
+LASPH = .TRUE. ! just leave this on. check vasp manual for details if you are curious
+LREAL = Auto  
+LMAXMIX = 4
+SIGMA = 0.05  !   so this is the smearing. In short 0 K DFT is difficult. I skip the details, what it does is, it calculates certain things at finite temperatures then extrapolates back the 0K value.
+ISMEAR = 0
+!the smearing here, if you have let's say a step function, 0 to 1 value, here it smooths it so that the step is not drastic but more gradual. As a result you get partial occupancies on the bands 
+!(values like 0.3 0.5 0.8 instead of just 0 or 1).
+!It is not such a big deal, but usually, you can use first a smearing of 0.2 for easy convergence then later improve it to eg 0.02. The goal is to have no partial occupancies in the OUTCAR.
+!Directly using 0.02 might lead to slow convergence or divergence.
+
+MAGMOM = 16*0 80*0 4*4 3*-4 2*4 2*-4 4*4 2*-4 4*4 2*-4 4*4 2*-4 4*4 2*-4 4*4 2*-4 2*4 3*-4 4*4 =    ! initial magnetic moment of atoms as listed in order in the POSCAR
+LORBIT = 11
+
+!IWAVPR = 11 ! no  prediction of orbitals  
+
+NELM = 60
+
+EDIFF = 1.e-5              
+EDIFFG = -0.02
+
+LDAU = .TRUE.    !this is for the +U coulomb repulsion term. Only the Ueff is important which is U-J. So here it is 3.61 eV for the Ueff.  4.5 and 0.89 or 3.61 and 0, both combinations give
+!the same results.
+LDAUTYPE = 2
+LDAUL = -1 -1 2    ! this  is for the l orbitals. The correction is only applied to 1 specific l orbital S here -1 mean nothing, 0 is s, 1 is p , 2 is d. SO here 2 for the Fe, meaning the 3d states are 
+!corrected. 
+LDAUU = 0.00 0.00 4.50
+LDAUJ = 0.00 0.00 0.89
+!LDAUPRINT = 2
+
+!LWAVE = .FALSE.
+LCHARG = .FALSE.
+
+!LVTOT = .TRUE.
+
+# optimization/ parallelization
+KPAR = 2  ! THIS VALUE WAS 8
+NCORE = 8 
+
+
+GGA = BO                              !this part is for the optB88-DF part, the vdw kernel has to be added. I add this file here as well. Just smash in the folder you run your job.
+! maybe converge it first with PBE, use the wavefunctions from that with ISTART=1 and add this part then to take into account VDW or use any of the other VDW setups. This one is already 
+!a bit outdated anyway
+! what is does it is adding a vdw kernel (the -DF part) and changes in the base functional (PBE) which therefore becomes B88. The parameters below are 
+!redefined
+PARAM1 = 0.1833333333   
+PARAM2 = 0.2200000000
+LUSE_VDW = .TRUE.
+AGGAC = 0.0000
+
+!IDIPOL = 3             !this is for dipol correction, check the vasp manual for this. In short I add these sometimes when needed in my calc. But only after pre-convergence without it before.
+!LDIPOL = .TRUE.
+
+
+# switch on machine learning
+ML_LMLFF = .FALSE.
+ML_ISTART = 0
+ML_LBASIS_DISCARD=.TRUE.
+ML_EPS_LOW = 1E-9
+ML_CTIFOR = 0.06
+ML_ICRITERIA = 0
+ML_SCLC_CTIFOR = 0.4
+ML_MB = 2000
+ML_MCONF = 2000

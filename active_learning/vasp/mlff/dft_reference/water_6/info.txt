@@ -1,0 +1,3 @@
+POSCA_0 best mine
+POSCAR_7 matthias
+POSCAR_8 second best deltaE=0
