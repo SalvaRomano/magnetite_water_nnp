@@ -1,0 +1,55 @@
+first
+random_6wuc_1rep/
+T_200
+Total =  138430
+T_300/
+Total =  154166
+stable_6wuc_1rep/
+T_200/
+Total =  151660
+T_300/
+Total =  152819
+
+stable_1.5wuc_2rep/
+T_200/
+Total =  128946
+T_300/
+Total =  129182
+stable_3wuc_2rep/
+T_200/
+Total =  117766
+T_300/
+Total =  122127
+stable_6wuc_2rep/
+T_200/
+Total =  106548
+T_300/
+Total =  112278
+
+continue
+random_6wuc_1rep/
+T_200/
+Total =  153646
+T_300/
+Total =  158421
+stable_6wuc_1rep/
+T_200/
+Total =  158822
+T_300/
+Total =  161119
+
+stable_1.5wuc_2rep/
+T_200/
+Total =  126762
+T_300/
+Total =  124723
+stable_3wuc_2rep/
+T_200/
+Total =  123005
+T_300/
+Total =  123316
+stable_6wuc_2rep/
+T_200/
+Total =  112746
+T_300/
+Total =  113128

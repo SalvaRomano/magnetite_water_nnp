@@ -1,0 +1,7 @@
+run_1 (down ok)
+step in conitnue: 53429 , global t  = 83617500  (then both diss)
+run_2 (up ok)
+step in continue: 72965 ,global t = 95349500  (both diss)
+run_3 (both diss => no conctinue)
+run_4
+continue good (up good)

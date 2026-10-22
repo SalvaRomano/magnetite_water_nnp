@@ -1,0 +1,2 @@
+run 1 2 3 4 5 all_data     1 and 2 are the production committee
+run 6 7 8 9   cleaned.data  (with no high forces: water ion 2- and water_162 H4O2)

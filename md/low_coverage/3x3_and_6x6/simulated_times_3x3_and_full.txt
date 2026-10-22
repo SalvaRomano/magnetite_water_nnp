@@ -1,0 +1,10 @@
+T=300K full_coverage/
+Total =  21486
+water_1_uc/
+Total =  29077.5
+water_2_uc/
+Total =  56782
+water_3_uc/
+Total =  56118
+water_4_uc/
+Total =  57354.5

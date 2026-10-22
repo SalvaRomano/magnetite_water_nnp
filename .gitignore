@@ -5,7 +5,7 @@
 *.h5py
 *.npz
 trjmagnetite*
-restart_*
+restart_[ab]
 WAVECAR
 CHG
 CHGCAR

@@ -1,0 +1,9 @@
+random_1.5wuc_2rep/
+T_200/ Total =  140589
+T_300/ Total =  141856
+random_3wuc_2rep/
+T_200/ Total =  117248
+T_300/ Total =  120095
+random_6wuc_2rep/
+T_200/ Total =  106012
+T_300/ Total =  103855

@@ -17,10 +17,13 @@ committee_nnp/          the trained committee (n2p2): input.nn, scaling.data,
                         weights.{001,008,026}.data = member 0, nnp-data-1/ = member 1,
                         input.every10.data + validation.every10.data (every 10th
                         structure of the training / validation sets, for GitHub size limits)
+  training/               provenance of the two members (learning curves, logs, test parity)
 active_learning/        the committee active-learning loop (see WORKFLOW)
   n2p2/  lammps/  vasp/ (+ mlff/)  input_data/ (+ cleaning/)
   vasp/mlff/              first data generation with VASP on-the-fly ML-MD
 md/                     LAMMPS production runs (inputs + last-frame snapshots)
+  tools/                  run-tree set-up, restart and simulated-time helpers
+structures/             starting configurations (POSCAR / LAMMPS data) of the MD runs
 analysis/               trajectory analysis scripts
 results/                paper figures
 
@@ -29,8 +32,18 @@ POTENTIAL (committee_nnp)
 -------------------------
 - Elements H, O, Fe; 2 hidden layers x 25 nodes, tanh; 156 symmetry functions
   (radial + angular), cutoff 12 bohr = 6.35 A, cutoff_type 3.
-- Trained 50 epochs, Kalman filter, energies + forces (force_weight 10),
-  normalize_data_set force.
+- Trained 50 epochs, Kalman filter, energies + forces (force_weight 10).
+  input.nn contains "normalize_data_set force", but the n2p2 version used ignored it
+  ("Unknown keyword ... Data set normalization is not used", nnp-train.log), so no
+  normalization constants / output.nn are needed: input.nn + weights are complete.
+- The two members are runs 1 and 2 of a 9-run training (VSC, final_committee_training):
+    member 0 (weights.*.data)        run_1, epoch 36
+    member 1 (nnp-data-1/)           run_2, epoch 49   (md5-identical to the epoch files)
+                     E RMSE train/test (meV/atom)   F RMSE train/test (meV/A)
+    member 0               0.94 / 0.91                    111 / 104
+    member 1               0.94 / 0.86                    111 / 104
+  committee_nnp/training/ has learning-curve.out, nnp-train.log, the training input.nn
+  (differs only in seed and committee keywords) and test-set parity data for both.
 - Training set 26,789 structures, validation 4,807. Reference DFT (VASP): optB88-vdW,
   DFT+U (U=4.5, J=0.89 eV on Fe d), ENCUT 500, spin-polarised ferrimagnetic
   (+-4 muB on Fe), k-points 2x2x1; POTCARs PAW_PBE Fe_pv, O_GW, H_GW.
@@ -97,8 +110,9 @@ MD SYSTEMS (md)
 ---------------
 LAMMPS 29Oct2020 + n2p2-committee-modified, dt = 0.5 fs, NVE + Langevin
 (damp 0.05 ps) on a central slab region only, dump every 500-1000 steps.
-Runs are chained through restart_a/b. Each run folder holds md.lmp / initial.data
-where they survived; snapshots/ has the last complete frame of the latest run
+Runs are chained through restart_a/b. Each run folder holds md.lmp and the job script
+(recovered from the VSC accounts; log.lammps files, 2.3 GB, are not in git);
+snapshots/ has the last complete frame of the latest run
 (LAMMPS custom dump: id type x y z ...; type 1=H, 2=O, 3=Fe).
 Surface cell: (sqrt2 x sqrt2)R45, a = 8.396 A. Slabs are two-sided (up/down).
 
@@ -111,15 +125,22 @@ Surface cell: (sqrt2 x sqrt2)R45, a = 8.396 A. Slabs are two-sided (up/down).
   bulk_truncated/small          bulk_truncated            6304/3792/448            ~3 ns
   bulk_truncated/large          bulk_truncated_big        12514/6897/448           ~1 ns
   slowmo                        slowmo                    = full_coverage/small    1.6 ns, dump every 50 fs
+  full_coverage/small/spectra_run  (VSC only)             = full_coverage/small    4 runs, x + v dumped every 4 fs (spectra)
   low_coverage/1x1              replicated_1              1 surface cell           200-500 K, up to ~50 ns
   low_coverage/2x2              replicated_2              2x2 cells                200-400 K
   low_coverage/3x3_and_6x6      replicated_3_6            3x3 (water_1-4), 6x6 (water_5,6,8)   300 K
 
 water_N_uc = N water molecules per surface unit cell, per side.
 full_coverage/simulated_times.txt and how_to_concatenate_restarts.txt explain how
-restarts were joined (remove overlapping frames, then cat).
+restarts were joined (remove overlapping frames, then cat); simulated_times*.txt in
+low_coverage/ give the total simulated steps per system (tools/get_production_info.sh).
+bulk_truncated/large/ionized: runs of the large bulk-truncated system with ions.
+low_coverage/2x2/random_*wuc_2rep: random initial water arrangements (inputs only).
+low_coverage/templates/: md.lmp_T_* and job templates used to start the T_* / run_* trees
+(tools/starter_T_run.sh); restarts were continued with tools/restarter.sh.
 CAVEAT: in low_coverage/{1x1/water_8,9_uc_1rep, 2x2/water_8,9_uc}/T_300 the md.lmp
-has temperature_f = 200, so T drifts from 300 K to ~280 K during those runs.
+has temperature_f = 200, so T drifts from 300 K to ~280 K during those runs. The
+templates contain both md.lmp_T_300 (300->300) and md.lmp_T_300_200 (300->200 ramp).
 
 
 ANALYSIS (analysis)
@@ -180,8 +201,13 @@ On the Vienna workstation (/data/home/salvatorer26/projects/ferrite_oxide/):
   production/production_committee/input.data, validation.data     full training data
   production/production_runs/<old name>/run_*/trjmagnetite.dump   trajectories
   production/production_runs/**/trajectory_h5py_files, histogram_*, MSD.npz_files
+  vsc_import/                       files recovered from VSC (training run_1/2 with all
+                                    epochs, every log.lammps, VASP_ion_minimization_2)
   production/VASP_ion_minimization_final/                         VASP relaxations (slab, water_6/8;
                                                                   not converged: moments collapse)
   PNAS_script/                                                     spectra data (~2 TB)
 Original potential dirs used on VSC: /gpfs/data/fs71576/salvatore/... and
 /gpfs/data/fs71796/salvrom/... (same committee as committee_nnp/).
+Still only on VSC: all 9 training runs (fs71576/salvatore/ferrite_oxide/final_committee_training),
+the spectra_run trajectories (~1.9 TB, fs71796/salvrom/projects/ferrite_oxide/production/
+big_systems/production_runs/spectra_run) and the other production trajectories.

@@ -1,0 +1,8 @@
+
+
+
+####dump every 400!!!!! discharged
+#t = 110630 is the step in which water down desorbed to surface up
+
+
+110630

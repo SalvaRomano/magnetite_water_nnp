@@ -1,0 +1,4 @@
+dump equi all custom 400 trjmagnetite.dump id type x y z ix iy  
+dump equi all custom 500 trjmagnetite.dump id type x y z ix iy  
+dump equi all custom 400 trjmagnetite.dump id type x y z ix iy  
+dump equi all custom 400 trjmagnetite.dump id type x y z ix iy  

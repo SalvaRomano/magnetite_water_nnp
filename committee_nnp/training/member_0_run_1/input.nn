@@ -1,0 +1,258 @@
+###############################################################################
+# GENERAL NNP SETTINGS
+###############################################################################
+number_of_elements                   3          # Number of elements.
+elements                             Fe O  H       # Specification of elements.
+global_hidden_layers_short           2          # Number of hidden layers.
+global_nodes_short                   25 25         # Number of nodes in each hidden layer.
+global_activation_short              t t l          # Activation function for each hidden layer and output layer.
+epochs				                 50          # Number of training epochs.
+random_seed			                 14361        # Random number generator seed.
+
+##### Committee ######
+committee_mode                  prediction     # Enables Committee-HDNNP, possible modes = prediction, validation.
+committee_data                  nnp-data 4    # Committee data directory prefix and committee size.
+committee_cutoff                0.0
+
+##### Training #####
+normalize_data_set               force         # Dataset normalization
+use_short_forces                               # Train forces. 
+jacobian_mode			 1             # Jacobian computation mode (0 = Summation to single gradient, 1 = Per-task summed gradient, 2 = Full Jacobian).
+selection_mode			 2             # Update candidate selection mode (0 = Random, 1 = Sort, 2 = Threshold).
+parallel_mode			 0             # Training parallelization used (0 = Parallel (rank 0 update), 1 = Parallel (all update)).
+update_strategy			 0             # Update strategy (0 = Combined, 1 = Per-element).
+task_batch_size_energy		 1             # Number of energy update candidates prepared per task for each update (0 = Entire training set).
+task_batch_size_force		 1             # Number of force update candidates prepared per task for each update (0 = Entire training set).
+test_fraction			 0             # Fraction of structures kept for testing==== VALIDATION.DATA.
+force_weight			 10            # Weight of force updates relative to energy updates.
+short_energy_fraction		 1.000000      # Fraction of energy updates per epoch.
+force_energy_ratio               10            # How many forces per energy are included in the training batch 
+# short_force_fraction		 0.010000      # Fraction of force updates per epoch.
+short_energy_error_threshold	 0.000000      # RMSE threshold for energy update candidates.
+short_force_error_threshold	 1.000000      # RMSE threshold for force update candidates.
+rmse_threshold_trials		 6             # Maximum number of RMSE threshold trials.
+weights_min                     -1.000000      # Minimum value for initial random weights.
+weights_max			 1.000000      # Maximum value for initial random weights.
+main_error_metric		 RMSEpa        # Main error metric for screen output (RMSEpa/RMSE/MAEpa/MAE).
+updater_type			 1             # Weight update method (0 = Gradient Descent, 1 = Kalman filter).
+
+##### Kalman Filter #####
+kalman_type			 0             # Kalman filter type (0 = Standard, 1 = Fading memory).          
+kalman_epsilon			 1.00e-02      # General Kalman filter parameter epsilon (sigmoidal: 0.01, linear: 0.001).
+kalman_q0			 0.010000      # General Kalman filter parameter q0 ("large").
+kalman_qtau			 2.302000      # General Kalman filter parameter qtau (2.302 => 1 order of magnitude per epoch).
+kalman_qmin			 1.00e-06      # General Kalman filter parameter qmin (typ. 1.0E-6).
+kalman_eta			 0.010000      # Standard Kalman filter parameter eta (0.001-1.0).
+kalman_etatau			 2.302000      # Standard Kalman filter parameter etatau (2.302 => 1 order of magnitude per epoch).
+kalman_etamax			 1.000000      # Standard Kalman filter parameter etamax (1.0+).
+
+##### Verbosity #####
+write_weights_epoch		 1             # Write weights every this many epochs.
+write_trainpoints		 0             # Write energy comparison every this many epochs.
+write_trainforces		 0             # Write force comparison every this many epochs.
+write_neuronstats		 0             # Write neuron statistics every this many epochs.
+write_trainlog			 0             # Write training log file.
+
+##### Symmetry Function #####
+memorize_symfunc_results                       # Keep symmetry function results in memory.
+scale_symmetry_functions                       # Scale all symmetry functions with min/max values.
+center_symmetry_functions                      # Center all symmetry functions, i.e. subtract mean value.
+scale_min_short                  0.0           # Minimum value for scaling.
+scale_max_short			 1.000000      # Maximum value for scaling.
+cutoff_type                      3             # Cutoff type.
+
+
+# radial H H
+symfunction_short H 2 H 0.00357106 0 6.35013
+symfunction_short H 2 H 0.0357106 0 6.35013
+symfunction_short H 2 H 0.107132 0 6.35013
+symfunction_short H 2 H 0.214264 0 6.35013
+symfunction_short H 2 H 0.53566 1.00544 6.35013
+symfunction_short H 2 H 1.07132 1.00544 6.35013
+symfunction_short H 2 H 2.14264 1.00544 6.35013
+symfunction_short H 2 H 5.3566 1.00544 6.35013
+
+# radial H O / O H
+symfunction_short H 2 O 0.00357106 0 6.35013
+symfunction_short H 2 O 0.0357106 0 6.35013
+symfunction_short H 2 O 0.107132 0 6.35013
+symfunction_short H 2 O 0.214264 0 6.35013
+symfunction_short H 2 O 0.53566 0.476259 6.35013
+symfunction_short H 2 O 1.07132 0.476259 6.35013
+symfunction_short H 2 O 2.14264 0.476259 6.35013
+symfunction_short H 2 O 5.3566 0.476259 6.35013
+
+symfunction_short O 2 H 0.00357106 0 6.35013
+symfunction_short O 2 H 0.0357106 0 6.35013
+symfunction_short O 2 H 0.107132 0 6.35013
+symfunction_short O 2 H 0.214264 0 6.35013
+symfunction_short O 2 H 0.53566 0.476259 6.35013
+symfunction_short O 2 H 1.07132 0.476259 6.35013
+symfunction_short O 2 H 2.14264 0.476259 6.35013
+symfunction_short O 2 H 5.3566 0.476259 6.35013
+
+# radial O O
+symfunction_short O 2 O 0.00357106 0 6.35013
+symfunction_short O 2 O 0.0357106 0 6.35013
+symfunction_short O 2 O 0.107132 0 6.35013
+symfunction_short O 2 O 0.214264 0 6.35013
+symfunction_short O 2 O 0.53566 2.11671 6.35013
+symfunction_short O 2 O 1.07132 2.11671 6.35013
+symfunction_short O 2 O 2.14264 2.11671 6.35013
+symfunction_short O 2 O 5.3566 2.11671 6.35013
+
+#magnetite O O 
+symfunction_short O 2 O 3.14264 3.11671 6.35013
+symfunction_short O 2 O 4.3566 3.11671 6.35013
+
+
+
+
+
+# radial Fe Fe
+symfunction_short Fe 2 Fe 0.00357106 0 6.35013
+symfunction_short Fe 2 Fe 0.0357106 0 6.35013
+symfunction_short Fe 2 Fe 0.107132 0 6.35013
+symfunction_short Fe 2 Fe 0.214264 0 6.35013
+symfunction_short Fe 2 Fe 0.53566 2.11671 6.35013
+symfunction_short Fe 2 Fe 1.07132 2.11671 6.35013
+symfunction_short Fe 2 Fe 2.14264 2.11671 6.35013
+symfunction_short Fe 2 Fe 5.3566 2.11671 6.35013
+symfunction_short Fe 2 Fe 3.14264 3.11671 6.35013
+symfunction_short Fe 2 Fe 4.3566 3.11671 6.35013
+
+# radial Fe O / O Fe
+symfunction_short Fe 2 O 0.00357106 0 6.35013
+symfunction_short Fe 2 O 0.0357106 0 6.35013
+symfunction_short Fe 2 O 0.107132 0 6.35013
+symfunction_short Fe 2 O 0.214264 0 6.35013
+symfunction_short Fe 2 O 0.53566 2.476259 6.35013
+symfunction_short Fe 2 O 1.07132 2.476259 6.35013
+symfunction_short Fe 2 O 2.14264 2.476259 6.35013
+
+symfunction_short O 2 Fe 0.00357106 0 6.35013
+symfunction_short O 2 Fe 0.0357106 0 6.35013
+symfunction_short O 2 Fe 0.107132 0 6.35013
+symfunction_short O 2 Fe 0.214264 0 6.35013
+symfunction_short O 2 Fe 0.53566 2.476259 6.35013
+symfunction_short O 2 Fe 1.07132 2.476259 6.35013
+symfunction_short O 2 Fe 2.14264 2.476259 6.35013
+
+# radial Fe H / O Fe
+symfunction_short Fe 2 H 0.00357106 0 6.35013
+symfunction_short Fe 2 H 0.0357106 0 6.35013
+symfunction_short Fe 2 H 0.107132 0 6.35013
+symfunction_short Fe 2 H 0.214264 0 6.35013
+symfunction_short Fe 2 H 0.53566 0.476259 6.35013
+symfunction_short Fe 2 H 1.07132 0.476259 6.35013
+symfunction_short Fe 2 H 2.14264 0.476259 6.35013
+symfunction_short Fe 2 H 5.3566 0.476259 6.35013
+
+symfunction_short H 2 Fe 0.00357106 0 6.35013
+symfunction_short H 2 Fe 0.0357106 0 6.35013
+symfunction_short H 2 Fe 0.107132 0 6.35013
+symfunction_short H 2 Fe 0.214264 0 6.35013
+symfunction_short H 2 Fe 0.53566 0.476259 6.35013
+symfunction_short H 2 Fe 1.07132 0.476259 6.35013
+symfunction_short H 2 Fe 2.14264 0.476259 6.35013
+symfunction_short H 2 Fe 5.3566 0.476259 6.35013
+
+#angular
+#H
+symfunction_short H 3 O H 0.714213 1.0 1.0 6.35013
+symfunction_short H 3 O H 0.249975 1.0 1.0 6.35013
+symfunction_short H 3 O H 0.249975 -1.0 1.0 6.35013
+symfunction_short H 3 O H 0.107132 1.0 1.0 6.35013
+symfunction_short H 3 O H 0.107132 -1.0 1.0 6.35013
+symfunction_short H 3 O H 0.0357106 1.0 4.0 6.35013
+symfunction_short H 3 O H 0.0357106 -1.0 4.0 6.35013
+symfunction_short H 3 O O 0.107132 1.0 1.0 6.35013
+symfunction_short H 3 O O 0.107132 -1.0 1.0 6.35013
+symfunction_short H 3 O O 0.00357106 1.0 4.0 6.35013
+symfunction_short H 3 O O 0.00357106 -1.0 4.0 6.35013
+
+
+symfunction_short H 3 O Fe 0.714213 1.0 1.0 6.35013
+symfunction_short H 3 O Fe 0.249975 1.0 1.0 6.35013
+symfunction_short H 3 O Fe 0.249975 -1.0 1.0 6.35013
+symfunction_short H 3 O Fe 0.107132 1.0 1.0 6.35013
+symfunction_short H 3 O Fe 0.107132 -1.0 1.0 6.35013
+symfunction_short H 3 O Fe 0.0357106 1.0 4.0 6.35013
+symfunction_short H 3 O Fe 0.0357106 -1.0 4.0 6.35013
+symfunction_short H 3 H Fe 0.207132 1.0 1.0 6.35013
+symfunction_short H 3 H Fe 0.207132 -1.0 1.0 6.35013
+symfunction_short H 3 H Fe 0.00357106 1.0 4.0 6.35013
+symfunction_short H 3 H Fe 0.00357106 -1.0 4.0 6.35013
+symfunction_short H 3 Fe Fe 0.107132 1.0 1.0 6.35013
+symfunction_short H 3 Fe Fe 0.107132 -1.0 1.0 6.35013
+symfunction_short H 3 Fe Fe 0.00357106 1.0 4.0 6.35013
+symfunction_short H 3 Fe Fe 0.00357106 -1.0 4.0 6.35013
+
+
+
+#O
+symfunction_short O 3 H H 0.249975 1.0 1.0 6.35013
+symfunction_short O 3 H H 0.107132 1.0 1.0 6.35013
+symfunction_short O 3 H H 0.249975 -1.0 1.0 6.35013
+symfunction_short O 3 H H 0.107132 -1.0 1.0 6.35013
+symfunction_short O 3 H H 0.0357106 -1.0 4.0 6.35013
+symfunction_short O 3 H H 0.0357106 1.0 4.0 6.35013
+symfunction_short O 3 O H 0.107132 1.0 1.0 6.35013
+symfunction_short O 3 O H 0.107132 -1.0 1.0 6.35013
+symfunction_short O 3 O H 0.00357106 1.0 4.0 6.35013
+symfunction_short O 3 O H 0.00357106 -1.0 4.0 6.35013
+symfunction_short O 3 O O 0.107132 1.0 1.0 6.35013
+symfunction_short O 3 O O 0.107132 -1.0 1.0 6.35013
+symfunction_short O 3 O O 0.00357106 1.0 4.0 6.35013
+symfunction_short O 3 O O 0.00357106 -1.0 4.0 6.35013
+
+
+
+symfunction_short O 3 H Fe 0.249975 1.0 1.0 6.35013
+symfunction_short O 3 H Fe 0.107132 1.0 1.0 6.35013
+symfunction_short O 3 H Fe 0.249975 -1.0 1.0 6.35013
+symfunction_short O 3 H Fe 0.107132 -1.0 1.0 6.35013
+symfunction_short O 3 H Fe 0.0357106 -1.0 4.0 6.35013
+symfunction_short O 3 H Fe 0.0357106 1.0 4.0 6.35013
+symfunction_short O 3 O Fe 0.107132 1.0 1.0 6.35013
+symfunction_short O 3 O Fe 0.107132 -1.0 1.0 6.35013
+symfunction_short O 3 O Fe 0.00357106 1.0 4.0 6.35013
+symfunction_short O 3 O Fe 0.00357106 -1.0 4.0 6.35013
+symfunction_short O 3 Fe Fe 0.107132 1.0 1.0 6.35013
+symfunction_short O 3 Fe Fe 0.107132 -1.0 1.0 6.35013
+symfunction_short O 3 Fe Fe 0.00357106 1.0 4.0 6.35013
+symfunction_short O 3 Fe Fe 0.00357106 -1.0 4.0 6.35013
+
+
+#Fe
+symfunction_short Fe 3 H H 0.249975 1.0 1.0 6.35013
+symfunction_short Fe 3 H H 0.107132 1.0 1.0 6.35013
+symfunction_short Fe 3 H H 0.249975 -1.0 1.0 6.35013
+symfunction_short Fe 3 H H 0.107132 -1.0 1.0 6.35013
+symfunction_short Fe 3 H H 0.0357106 -1.0 4.0 6.35013
+symfunction_short Fe 3 H H 0.0357106 1.0 4.0 6.35013
+symfunction_short Fe 3 O H 0.107132 1.0 1.0 6.35013
+symfunction_short Fe 3 O H 0.107132 -1.0 1.0 6.35013
+symfunction_short Fe 3 O H 0.00357106 1.0 4.0 6.35013
+symfunction_short Fe 3 O H 0.00357106 -1.0 4.0 6.35013
+symfunction_short Fe 3 O O 0.107132 1.0 1.0 6.35013
+symfunction_short Fe 3 O O 0.107132 -1.0 1.0 6.35013
+symfunction_short Fe 3 O O 0.00357106 1.0 4.0 6.35013
+symfunction_short Fe 3 O O 0.00357106 -1.0 4.0 6.35013
+
+symfunction_short Fe 3 H Fe 0.249975 1.0 1.0 6.35013
+symfunction_short Fe 3 H Fe 0.107132 1.0 1.0 6.35013
+symfunction_short Fe 3 H Fe 0.249975 -1.0 1.0 6.35013
+symfunction_short Fe 3 H Fe 0.107132 -1.0 1.0 6.35013
+symfunction_short Fe 3 H Fe 0.0357106 -1.0 4.0 6.35013
+symfunction_short Fe 3 H Fe 0.0357106 1.0 4.0 6.35013
+symfunction_short Fe 3 O Fe 0.107132 1.0 1.0 6.35013
+symfunction_short Fe 3 O Fe 0.107132 -1.0 1.0 6.35013
+symfunction_short Fe 3 O Fe 0.00357106 1.0 4.0 6.35013
+symfunction_short Fe 3 O Fe 0.00357106 -1.0 4.0 6.35013
+
+symfunction_short Fe 3 Fe Fe 0.107132 1.0 1.0 6.35013
+symfunction_short Fe 3 Fe Fe 0.107132 -1.0 1.0 6.35013
+symfunction_short Fe 3 Fe Fe 0.00357106 1.0 4.0 6.35013
+symfunction_short Fe 3 Fe Fe 0.00357106 -1.0 4.0 6.35013
+

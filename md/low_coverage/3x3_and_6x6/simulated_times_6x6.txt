@@ -1,0 +1,7 @@
+T=300K replicated 6x6
+water_5_uc/
+Total =  33276
+water_6_uc/
+Total =  32833.5
+water_8_uc/
+Total =  30490
